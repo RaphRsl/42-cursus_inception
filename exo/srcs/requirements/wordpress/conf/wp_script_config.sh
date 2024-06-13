@@ -4,7 +4,8 @@
 sleep 10
 
 if [ ! -e /var/www/wordpress/wp-config.php ]; then
-    wp config create	--allow-root \
+    echo "wordpress is not installed yet"
+	wp config create	--allow-root \
 						--dbname=$SQL_DATABASE \
 						--dbuser=$SQL_USER \
 						--dbpass=$SQL_PASSWORD \
@@ -32,4 +33,4 @@ if [ ! -d /run/php ]; then
 fi
 
 # start php-fpm
-/usr/sbin/php-fpm7.4 -F
+/usr/sbin/php-fpm7.3 -F

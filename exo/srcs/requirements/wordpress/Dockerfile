@@ -15,7 +15,7 @@ RUN cd /var/www && tar -xzf wordpress-6.0.tar.gz && rm wordpress-6.0.tar.gz
 RUN		chown -R root:root /var/www/wordpress
 
 # Conf PHP
-COPY	./conf/php.conf			/etc/php/7.4/fpm/pool.d/www.conf
+COPY	./conf/php.conf			/etc/php/7.3/fpm/pool.d/www.conf
 
 # Conf Wordpress
 	# wp-cli = interface ligne de commande pour configurer wordpress
