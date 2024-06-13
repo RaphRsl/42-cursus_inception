@@ -24,4 +24,4 @@ RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 COPY conf/wp_script_config.sh wp_script_config.sh
-ENTRYPOINT ["bash", "auto_config.sh"]
+ENTRYPOINT ["bash", "wp_script_config.sh"]
