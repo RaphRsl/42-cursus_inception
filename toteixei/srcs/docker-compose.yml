@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    ports:
+      - 443:443
+      - 80:80
+    restart: always
+    volumes:
+      - wordpress_volume:/var/www/html
+    networks:
+      - network
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    env_file : 
+      - .env
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    networks:
+      - network
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    depends_on: 
+      - mariadb
+    env_file : 
+      - .env
+    volumes:
+      - wordpress_volume:/var/www/html
+    networks:
+      - network
+    restart: always
+
+
+volumes:
+  mariadb_volume:
+    driver: local
+    driver_opts: 
+      type: none
+      o: bind
+      device: /home/toteixei/data/db
+  wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/toteixei/data/wordpress
+
+networks:
+  network:
+    driver: bridge
