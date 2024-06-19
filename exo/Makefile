@@ -1,7 +1,4 @@
 PATH_YML = ./srcs/docker-compose.yml
-RED = "\033[1;31m"
-GREEN = "\033[1;32m"
-YELLOW = "\033[1;33m"
 
 ifneq (,$(wildcard srcs/requirements/tools/data_path.txt))
 	path_file := srcs/requirements/tools/data_path.txt
@@ -43,7 +40,7 @@ fclean: clean
 	@docker system prune -af
 
 reset: clean
-	@rm srcs/requirements/tools/data_path.txt
+	@rm -f srcs/requirements/tools/data_path.txt
 	@printf "\nPath is reset\n"
 
 config:

@@ -58,13 +58,13 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/mnt/nfs/homes/rroussel/wordpress'
+      device: '/home/rroussel/data/wordpress'
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/mnt/nfs/homes/rroussel/mariadb'
+      device: '/home/rroussel/data/mariadb'
 
 # NETWORKS
 networks:

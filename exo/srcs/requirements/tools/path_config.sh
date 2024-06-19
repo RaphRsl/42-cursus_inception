@@ -1,7 +1,7 @@
 echo "=== INCEPTION PATH CONFIGURATION ==="
 
 printf "\nPath for mariadb database and wordpress files:"
-printf "\nExemple : /mnt/nfs/homes/rroussel/data\n"
+printf "\nExemple : /home/rroussel/data\n"
 read path
 
 if [ ! -d "$path" ]; then

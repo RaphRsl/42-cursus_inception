@@ -1,1 +1,1 @@
-/mnt/nfs/homes/rroussel
+/home/rroussel/data
