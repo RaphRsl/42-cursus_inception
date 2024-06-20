@@ -1,0 +1,40 @@
+--no-install-recommends
+    to avoid installing unnecessary packages that might cause "invoke policy could not determine run level" typically occurs because the Docker container environment does not have a traditional init system like systemd or SysVinit, which manage runlevels. These warnings can generally be ignored, but they often indicate that some scripts within the package expect to be running on a traditional Linux system rather than within a container. However, to avoid any potential issues, you can configure the installation process to avoid invoking the service management commands which are not relevant within a container context.
+
+
+---
+
+#!/bin/sh
+
+chown -R mysql:mysql /var/lib/mysql
+
+# start sql
+service mariadb start
+
+# Wait for MariaDB to be fully up and running
+while ! mysqladmin ping --silent; do
+    echo "Waiting for MariaDB to be up and running..."
+    sleep 3
+done
+
+
+
+# create database // user with password // give privileges // modify root password
+mariadb -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
+mariadb -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
+mariadb -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%';"
+mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
+
+# reload database
+mariadb -p${SQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;"
+
+#shutdown
+mariadb-admin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
+
+sleep 10
+
+# restart in safe mode
+exec mysqld_safe
+
+---
+
