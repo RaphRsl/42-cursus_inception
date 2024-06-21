@@ -10,7 +10,7 @@ services:
     networks:
       - inception
     build: 
-      context: requirements/mariadb
+      context: ./requirements/mariadb
       dockerfile: Dockerfile
     env_file: .env
     restart: on-failure

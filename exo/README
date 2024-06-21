@@ -38,3 +38,156 @@ exec mysqld_safe
 
 ---
 
+PATH_YML = ./srcs/docker-compose.yml
+
+ifneq (,$(wildcard srcs/requirements/tools/data_path.txt))
+	path_file := srcs/requirements/tools/data_path.txt
+	variable := $(shell cat ${path_file})
+	wordpress_path := $(shell echo ${variable}/wordpress)
+	mariadb_path := $(shell echo ${variable}/mariadb)
+endif
+
+
+all:
+ifeq (,$(wildcard ./srcs/requirements/tools/data_path.txt))
+	@bash srcs/requirements/tools/path_config.sh
+	@echo "Good!"
+	@echo "Use make to launch"
+else
+ifeq (,$(wildcard $(mariadb_path)))
+	@mkdir -p $(mariadb_path)
+	@mkdir -p $(wordpress_path)
+	@chmod 777 $(mariadb_path)
+	@chmod 777 $(wordpress_path)
+endif
+	@echo "Starting Inception..."
+	@sleep 1
+	@docker-compose -f $(PATH_YML) up -d --build
+endif
+
+re: clean all
+
+stop:
+	@docker-compose -f $(PATH_YML) stop
+
+
+clean: stop
+	@docker-compose -f $(PATH_YML) down -v
+
+fclean: clean
+	@rm -rf $(wordpress_path)
+	@rm -rf $(mariadb_path)
+	@docker system prune -af
+
+reset: clean
+	@rm -f srcs/requirements/tools/data_path.txt
+	@printf "\nPath is reset\n"
+
+config:
+	@bash srcs/requirements/tools/path_config.sh
+
+
+---
+
+#!/bin/sh
+
+# Create necessary directories and set permissions
+mkdir -p /run/mysqld
+chown -R mysql:mysql /run/mysqld
+
+# Ensure the data directory exists and has the correct permissions
+chown -R mysql:mysql /var/lib/mysql
+
+service mariadb start
+
+# Wait for MariaDB to be fully up and running
+while ! mysqladmin ping --silent; do
+    echo "Waiting for MariaDB to be up and running..."
+    sleep 3
+done
+
+# Set root password // modify root password
+mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
+
+# Restart MariaDB with networking
+mysqladmin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
+
+# Wait for shutdown to complete
+sleep 10
+
+# Start MariaDB normally
+mysqld_safe &
+
+# Wait for MariaDB to be fully up and running again
+while ! mysqladmin ping --silent; do
+    echo "Waiting for MariaDB to be up and running..."
+    sleep 3
+done
+
+# create database // user with password // give privileges
+mysql -u root -p"${SQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
+mysql -u root -p"${SQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
+mysql -u root -p"${SQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%';"
+
+# reload database
+mysql -u root -p"${SQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+
+#shutdown
+mariadb-admin -u root -p"${SQL_ROOT_PASSWORD}" shutdown
+
+sleep 10
+
+# restart in safe mode
+exec mysqld_safe
+
+
+---
+
+
+
+# Create the database if it doesn't exist
+echo "Creating database if it doesn't exist..."
+mysql -u root -p"${DB_ROOT_PASSWORD}" <<-EOSQL
+    CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;
+EOSQL
+
+# Create the user if it doesn't exist
+echo "Creating user if it doesn't exist..."
+mysql -u root -p"${DB_ROOT_PASSWORD}" <<-EOSQL
+    CREATE USER IF NOT EXISTS \`${DB_USER}\`@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
+EOSQL
+
+# Grant all privileges to the user on the database
+echo "Granting privileges..."
+mysql -u root -p"${DB_ROOT_PASSWORD}" <<-EOSQL
+    GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO \`${DB_USER}\`@'%';
+EOSQL
+
+# Flush privileges to ensure changes take effect
+echo "Flushing privileges..."
+mysql -u root -p"${DB_ROOT_PASSWORD}" <<-EOSQL
+    FLUSH PRIVILEGES;
+EOSQL
+
+# Shut down the MariaDB service
+echo "Shutting down MariaDB service..."
+mysqladmin -u root -p"${DB_ROOT_PASSWORD}" shutdown
+
+# Wait for shutdown to complete
+sleep 10
+
+# Restart MariaDB in safe mode
+exec mysqld_safe
+
+
+===========================
+===========================
+
+docker-compose up --build -d
+
+docker-compose logs -f
+
+docker-compose down
+
+===========================
+===========================
