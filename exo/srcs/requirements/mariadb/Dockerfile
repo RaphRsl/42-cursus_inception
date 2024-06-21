@@ -17,7 +17,7 @@ RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
 
 
 # Export environment variables
-RUN export $(cat /root/.env | xargs)
+# RUN export $(cat /root/.env | xargs)
 
 # my bash script to configure the sql database
 ENTRYPOINT ["bash", "mdb_script_config.sh"]

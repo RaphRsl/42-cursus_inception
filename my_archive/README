@@ -1,0 +1,12 @@
+- script_nginx.sh ? rien d'autre ?
+
+
+- makefile : eviter de supprimer le .env s'il existe ?
+
+
+- 500-cn conf ?
+
+- wordpress dockerfile : 
+CMD ["tools/script_wordpress.sh"]
+
+
