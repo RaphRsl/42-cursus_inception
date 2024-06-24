@@ -1,25 +1,19 @@
 FROM debian:bullseye
 
-ENV DEBIAN_FRONTEND=noninteractive
-
 # Update and install MariaDB server
-RUN apt-get update && apt-get upgrade -y && apt-get install -y mariadb-server
+RUN apt update -y && apt upgrade -y && apt-get install -y mariadb-server \
+	curl
 
-# Copy configuration files
+RUN apt-get install systemd -y
+
+# Copy configuration file
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY conf/mdb_script_config.sh /usr/local/bin/mdb_script_config.sh
 
-# Ensure the script is executable
-RUN chmod +x /usr/local/bin/mdb_script_config.sh
-
-# Create necessary directories and set permissions
-RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
-
-
-# Export environment variables
-# RUN export $(cat /root/.env | xargs)
-
-# my bash script to configure the sql database
-ENTRYPOINT ["bash", "mdb_script_config.sh"]
+# Copy script file / Ensure the script is executable
+COPY tools/script_mariadb.sh /usr/local/bin/script_mariadb.sh
+RUN chmod +x /usr/local/bin/script_mariadb.sh
 
 EXPOSE 3306
+
+# launch my bash script to configure the sql database
+CMD ["/usr/local/bin/script_mariadb.sh"]
