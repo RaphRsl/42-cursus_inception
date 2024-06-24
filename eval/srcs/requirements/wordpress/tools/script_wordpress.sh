@@ -1,5 +1,6 @@
 #!/bin/sh
 
+#wait to be sure that the database is ready
 sleep 30
 
 cd /var/www/html
@@ -36,4 +37,5 @@ wp user create	$WP_USER \
 				--allow-root \
 
 
+# start php-fpm
 /usr/sbin/php-fpm7.4 -F
