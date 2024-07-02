@@ -32,7 +32,7 @@ This project aimed to broaden my knowledge of system administration and containe
 1. [Installation and Usage](#installation-and-usage)
    - [Prerequisites](#prerequisites)
    - [Cloning and Running](#cloning-and-running)
-   - [Other Useful Commands](#other-useful-commands)
+   - [Other useful commands to use my project](#other-useful-commands-to-use-my-project)
 2. [Key Features](#key-features)
 3. [Key Parts from an Academic View](#key-parts-from-an-academic-view)
    - [Subject Summary](#subject-summary)
