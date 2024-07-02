@@ -4,10 +4,7 @@
 
 ## Description
 
-This project aimed to broaden my knowledge of system administration and containers by using Docker. I had to virtualize several Docker images using docker-compose, in a virtual machine. The use of Dockerhub was forbidden.
-
-![1633865144-docker-meme-deeper](https://github.com/RaphRsl/42-cursus_inception/assets/79993112/8c26ecd4-eeb8-45d0-a7a0-8958dcff21eb)
-
+This project aimed to broaden my knowledge of system administration and containers by using **Docker**. I had to virtualize several Docker images using **docker-compose**, in a **virtual machine**. The **use of Docker Hub was forbidden**.
 
 ## Overview of the Project
 
@@ -31,8 +28,6 @@ This project aimed to broaden my knowledge of system administration and containe
 	- NGINX
 	- WordPress (php-fpm)
 	- MariaDB (MySQL)
-	- Containerization (Docker)
-	- Networking (docker-network)
 	- Service orchestration (docker-compose)
 	- TLS/SSL configuration (TLSv1.2 or TLSv1.3)
 	- Database management
@@ -46,16 +41,29 @@ This project aimed to broaden my knowledge of system administration and containe
 
 ## Table of Contents
 
-1. [Installation and usage](#installation-and-usage)
+## Table of Contents
+
+1. [Installation and Usage](#installation-and-usage)
+   - [Prerequisites](#prerequisites)
+   - [Cloning and Running](#cloning-and-running)
+   - [Other Useful Commands](#other-useful-commands)
 2. [Key Features](#key-features)
 3. [Key Parts from an Academic View](#key-parts-from-an-academic-view)
+   - [Subject Summary](#subject-summary)
+   - [Requirements](#requirements)
+   - [Mandatory Part](#mandatory-part)
+   - [Forbidden](#forbidden)
+   - [Useful Commands](#useful-commands)
+   - [Advice and Key Code Parts](#advice-and-key-code-parts)
 4. [Author and Contributing](#author-and-contributing)
+   - [How to Contribute](#how-to-contribute)
+
 
 ## Installation and usage
 
 ### Prerequisites
 
-- A virtual machine (VM) - *not mandatory*
+- A virtual machine (VM) - *optional but recommended*
 	My VM setup on VirtualBox :
 		- ISO: ubuntu-22.04.4-desktop-amd64.iso
 		- Base memory: 8192 MB
@@ -72,7 +80,7 @@ This project aimed to broaden my knowledge of system administration and containe
 
 2. Run the project using my makefile:
    ```bash
-   make			# run the project : create .env file if necessary + build volumes/networks/containers + launch scripts
+   make			# run the project : create .env file if necessary + build volumes/networks/containers + start the containers in background and launch the scripts
    ```
 
 ### Other useful commands to use my project
@@ -143,8 +151,6 @@ make fclean			# make clean + deleting volumes + deleting .env file
 - latest tag
 - no password in my Dockerfiles
 - For obvious security reasons, any credentials, API keys, env variables etc... must be saved locally in a .env file and ignored by git. Publicly stored credentials will lead you directly to a failure of the project.
-- 
-<img width="506" alt="Capture_dcran_2022-07-19__16 24 51" src="https://github.com/RaphRsl/42-cursus_inception/assets/79993112/cfc28ec4-9012-43e0-9cc3-a85e72d7824f">
 
 #### Useful commands
 
@@ -153,81 +159,127 @@ make fclean			# make clean + deleting volumes + deleting .env file
 
 **======= DOCKER COMMANDS =======**
 
-- DOCKER BUILD
-	- **docker build srcs/requirements/nginx/**  = build nginx
-	- **docker build .**  = si on est deja dans le bon directory
-	- **docker build -t nginx .**  = renommer le build nginx
-- DOCKER IMAGE
-	- **docker image ls**  = liste les images actuelles
-	- **docker images -a** = liste des images actuelles
-- DOCKER REMOVE IMAGES
-	- **docker rmi $(docker images -a -q)** = remove all docker images using their IDs (first stop all running containers usign those images)
-		- *-a = list all images*
-		- *-a -q = list all images IDs*
-	- **docker rmi -f $(docker images -a -q)** = force removal of images if they are still used by stopped containers
-- DOCKER RUN
-	- **docker run \< image name \>** = demarrer un container d'apres une image
-	- **docker run -it \< image name \>** = acceder directement au terminal du container a son lancement
-	* **Quitter le terminal d'un container** = exit
-- DOCKER PS
-	- **docker ps**  = connaitre les container actuellement lancés
-- DOCKER STOP AND REMOVE CONTAINERS
-	* **docker stop \< container name or id \>** = stoper un container
-	* **docker stop $(docker ps -q)** = stop all running containers
-	* **docker kill \< container name or id \>** = forcer arret container
-	* **docker rm \< contaimer name or id \>** = remove a stopped container
-	* **docker rm $(docker ps -a -q)** = remover all stopped containers
-	* **docker container prune** = remove all stopped containers
-- DOCKER COMPOSE YAML
-	- **docker-compose -f  <path_docker_compose>  -d —build** = build yaml
-	- **docker-compose -f  <path_docker_compose>  stop** = stop build
-	- **docker-compose -f  <path_docker_compose>  down -v** = supprimer le build
-- CLEAN VOLUMES / NETWORKS
-	- **docker volume rm $(docker volume ls -q)** = remove all volumes
-	- **docker network rm $(docker network ls -q)** = remove all networks
+- DOCKER BUILD IMAGES
+```bash
+docker build srcs/requirements/nginx/  # Build nginx image
+docker build .  # Build image in current directory
+docker build -t nginx .  # Rename build to 'nginx'
+
+```
+
+- DOCKER MANAGE IMAGES (list & remove)
+```bash
+docker image ls  # List all images
+docker images -a  # List all images with details
+docker rmi $(docker images -a -q)  # Remove all images using their IDs (first stop all running containers using those images)
+									# -a = list all images
+									# -a -q = list all images IDs
+docker rmi -f $(docker images -a -q)  # Force remove images still used by containers
+```
+
+- DOCKER RUN CONTAINERS
+```bash
+docker run <image name>  # Start container from image
+docker run -it <image name>	# Access container terminal on start
+							# -it = interactive terminal
+							# to exit the terminal: "exit"
+
+```
+
+- DOCKER MANAGE CONTAINERS (list & remove)
+```bash
+docker ps  # List all running containers
+docker stop <container name or id>  # Stop container
+docker stop $(docker ps -q)  # Stop all running containers
+docker kill <container name or id>  # Force stop container
+docker rm <container name or id>  # Remove stopped container
+docker rm $(docker ps -a -q)  # Remove all stopped containers
+docker container prune  # Remove all stopped containers
+```
+
+- DOCKER COMPOSE (manage, build, start, stop, down)
+```bash
+docker-compose ps  # List: name / command / state / ports
+docker compose ps  # List: name / image / command / service / created / status / port
+docker-compose -f <path_docker_compose> up -d --build  # Build and start in background
+docker-compose -f <path_docker_compose> stop  # Stop services
+docker-compose -f <path_docker_compose> down  # Remove services
+docker-compose -f <path_docker_compose> down -v  # Remove services and volumes
+docker-compose -f <path_docker_compose> down -v --rmi all  # Remove services, volumes and all images
+```
+- DOCKER VOLUMES
+```bash
+docker volume ls  # List all volumes
+docker volume inspect <volume name>  # Inspect volume
+docker volume rm <volume name>  # Remove volume
+docker volume rm $(docker volume ls -q)  # Remove all volumes
+```
+
+- DOCKER NETWORKS
+```bash
+docker network ls  # List all networks
+docker network inspect <network name>  # Inspect network
+docker network rm <network name>  # Remove network
+docker network rm $(docker network ls -q)  # Remove all networks
+```
+
 - GENERAL
-	* **docker system prune -af** = supprime toutes les images / containers
-	* **docker logs \< container \>** = logs du container
-	* **docker-compose down && docker-compose build \< image that I changed \> && docker-compose up** = tout suppr, mettre a jouer l'image, relancer
-	* **docker-compose down && docker-compose build \< image that I changed \> && docker-compose up -d** = pareil mais lance en background
+```bash
+docker system prune -af  # Remove all images and containers
+docker logs <container>  # Show logs of container ==> useful to debug
+docker-compose down && docker-compose build <image that I changed> && docker-compose up  # Remove all, build updated image, restart
+docker-compose down && docker-compose build <image that I changed> && docker-compose up -d  # Remove all, build updated image, restart in background
+```
 
-##### Useful commands for 42 evaluation
-
-
-**======= DOCKER COMMANDS =======**
-
-docker image ls
-docker ps
-docker network ls
-dokcer volume ls
-  docker volume inspect \< volume name \> 
-
-
-docker-compose ps
-  => name / command / state / ports
-docker compose ps
-  => name / image / command / service / created / status / port
+##### Other useful commands for 42 evaluation
 
 
 **======= MARIADB =======**
 
-docker exec -it mariadb bash ==> access mariadb container
-	mysql -u \< USER MARIADB NAME \> -p  ==> connect to the database
-	\< USER MARIADB PW \>
-	USE \< database name \> ==> switch to the correct database
-		- SELECT \* FROM wp_comments ORDER BY comment_date DESC LIMIT 10;   ==> 10 most recent comments
-		- SELECT comment_ID, comment_post_ID, comment_author, comment_date, comment_content FROM wp_comments ORDER BY comment_date DESC LIMIT 10;  ==> same but with better format output
-		- comment_approved ==> check if comment is published (1) or not (0)
+- Access MariaDB database:
+```bash
+docker exec -it mariadb bash  # Access mariadb container
+# Inside the container
+mysql -u <USER MARIADB NAME> -p  # Connect to the database
+<USER MARIADB PW> # Enter password
+USE <database name>  # Switch to the correct database
+```
 
-	UPDATE wp_comments SET comment_approved = '1' WHERE comment_ID = \< COMMENT ID \>;
-
+- Useful SQL commands:
+```sql
+SELECT * FROM wp_comments ORDER BY comment_date DESC LIMIT 10;  # show 10 most recent comments (not easy to read)
+SELECT comment_ID, comment_post_ID, comment_author, comment_date, comment_content FROM wp_comments ORDER BY comment_date DESC LIMIT 10;  # same but with better format output
+SELECT comment_approved FROM wp_comments;  # check if comment is published (1) or not (0)
+UPDATE wp_comments SET comment_approved = '1' WHERE comment_ID = <COMMENT ID>;  # approve comment
+```
 
 **======= WORDPRESS =======**
 
-> to pass chrome unsafe warning: type "thisisunsafe"
+- Access WordPress container:
+```bash
+docker exec -it wordpress bash  # Access wordpress container
+# Inside the container
+wp comment list  # List all comments
+wp comment list --status=approved  # List all approved comments
+wp comment list --status=spam  # List all spam comments
+wp comment list --status=trash  # List all trashed comments
+wp comment list --status=unapproved  # List all unapproved comments
+wp comment list --status=hold  # List all comments on hold
+wp comment list --status=moderated  # List all comments awaiting moderation
+wp comment list --status=0  # List all comments with status 0
+wp comment list --status=1  # List all comments with status 1
+wp comment list --status=spam  # List all comments with status spam
+wp comment list --status=trash  # List all comments with status trash
+wp comment list --status=unapproved  # List all comments with status unapproved
+wp comment list --status=hold  # List all comments with status hold
+wp comment list --status=moderated  # List all comments with status moderated
+```
 
+- Access WordPress website:
 Website: https://rroussel.42.fr
 	to login: https://rroussel.42.fr/wp-admin
+
+> to pass chrome unsafe warning: type "thisisunsafe"
 
 
 #### Advice and key code parts
