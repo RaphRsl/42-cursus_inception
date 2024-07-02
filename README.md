@@ -6,6 +6,9 @@
 
 This project aimed to broaden my knowledge of system administration and containers by using Docker. I had to virtualize several Docker images using docker-compose, in a virtual machine. The use of Dockerhub was forbidden.
 
+![1633865144-docker-meme-deeper](https://github.com/RaphRsl/42-cursus_inception/assets/79993112/8c26ecd4-eeb8-45d0-a7a0-8958dcff21eb)
+
+
 ## Overview of the Project
 
 - **What the Project Is:**
@@ -140,6 +143,8 @@ make fclean			# make clean + deleting volumes + deleting .env file
 - latest tag
 - no password in my Dockerfiles
 - For obvious security reasons, any credentials, API keys, env variables etc... must be saved locally in a .env file and ignored by git. Publicly stored credentials will lead you directly to a failure of the project.
+- 
+<img width="506" alt="Capture_dcran_2022-07-19__16 24 51" src="https://github.com/RaphRsl/42-cursus_inception/assets/79993112/cfc28ec4-9012-43e0-9cc3-a85e72d7824f">
 
 #### Useful commands
 
