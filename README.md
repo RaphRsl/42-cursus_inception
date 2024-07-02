@@ -1,6 +1,5 @@
 # Inception by RaphRsl
-
-
+![1633865144-docker-meme-deeper](https://github.com/RaphRsl/42-cursus_inception/assets/79993112/ce410a75-1b23-477e-ad09-255e5d969e70)
 
 ## Description
 
@@ -151,6 +150,8 @@ make fclean			# make clean + deleting volumes + deleting .env file
 - latest tag
 - no password in my Dockerfiles
 - For obvious security reasons, any credentials, API keys, env variables etc... must be saved locally in a .env file and ignored by git. Publicly stored credentials will lead you directly to a failure of the project.
+- 
+<img width="506" alt="Capture_dcran_2022-07-19__16 24 51" src="https://github.com/RaphRsl/42-cursus_inception/assets/79993112/e5d06d90-85ac-4310-a532-b3a46598ccb0">
 
 #### Useful commands
 
