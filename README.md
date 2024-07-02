@@ -11,7 +11,7 @@ This project aimed to broaden my knowledge of system administration and containe
 	Inception is a system administration exercise where I set up a small infrastructure composed of different services under specific rules using Docker in a virtual machine.
 - **Main Technical Features or Functionalities:** 
   - Set up Docker containers for NGINX with TLSv1.2 or TLSv1.3, WordPress + php-fpm, and MariaDB.
-  - Create volumes for the WordPress database and website files.
+  - Create volumes for the WordPress database and website files to ensure data persistence.
   - Establish a docker-network for container communication.
   - Ease management and creation of the containers using docker-compose.
   - Ensure containers restart in case of a crash and that any environment variable is secured.
@@ -24,21 +24,8 @@ This project aimed to broaden my knowledge of system administration and containe
 	- PHP
 	- Makefile
 - **Tools and technical notions Involved:**
-	- NGINX
-	- WordPress (php-fpm)
-	- MariaDB (MySQL)
-	- Service orchestration (docker-compose)
-	- TLS/SSL configuration (TLSv1.2 or TLSv1.3)
-	- Database management
-	- Web server setup and configuration
-	- System administration (systemd)
-	- Environment variable management in a secure way
-	- Virtual machine setup (VirtualBox)
-	- Persistent volumes for database and website files
-	- Port mapping
+	NGINX / WordPress (php-fpm) / MariaDB (MySQL) / Service orchestration (docker-compose) / TLS/SSL configuration (TLSv1.2 or TLSv1.3) / Database management / Web server setup and configuration / System administration (systemd) / Environment variable management / Virtual machine setup (VirtualBox) / Persistent volumes / Port mapping
 
-
-## Table of Contents
 
 ## Table of Contents
 
