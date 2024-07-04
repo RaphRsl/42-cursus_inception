@@ -50,7 +50,7 @@ This project aimed to broaden my knowledge of system administration and containe
 ### Prerequisites
 
 - A virtual machine (VM) - *optional but recommended*
-	My VM setup on VirtualBox :
+	My VM setup on VirtualBox:
 		- ISO: ubuntu-22.04.4-desktop-amd64.iso
 		- Base memory: 8192 MB
 		- Processors: 4 CPUs
@@ -378,7 +378,7 @@ To avoid this:
 - use a .env file to store your env variables
 - add the .env file to your .gitignore file AND MAKE SURE TO NOT PUSH IT!
 
-I chosed to write a script that will create the .env file at the start of the project. This way, I am sure to have all the needed env variables and to not forget any. It is not mandatory but it can be a good way to avoid any mistake and to solve the issue in a much more stylish way than copying the .env file from your local machine to the VM. Style matters! :wink:
+I chosed to write a script that will create the .env file at the start of the project. This way, I am sure to have all the needed env variables and to not forget any. It is not mandatory but it can be a good way to avoid any mistake and to solve the issue in a much more stylish way than copying the .env file from your local machine to the VM. Style matters! 😎
 
 ---
 
@@ -416,12 +416,12 @@ You need to create a docker-network to establish the connection between your con
 
 ---
 
-*Good luck!* Do not hesitate to contact me if you have any question or suggestion to improve this README file! Feel free to star the repository if you found it useful and want to support me! :star: (it will also be easier for you to find it back later on!) Share it with your friends that are struggling, become a hero! :wink:
+*Good luck!* Do not hesitate to contact me if you have any question or suggestion to improve this README file! Feel free to star the repository if you found it useful and want to support me! ⭐ (it will also be easier for you to find it back later on!) Share it with your friends that are struggling, become a hero! 😉
 
 ## Author and Contributing
 
 This project was created by RaphRsl as part of my curriculum at Ecole42 Paris (username rroussel). It is intended for academic purposes only.
-If you found this project useful, please consider starring the repository to show your support! :star
+If you found this project useful, please consider starring the repository to show your support! ⭐
 
 ### How to Contribute
 
